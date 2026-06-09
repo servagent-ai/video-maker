@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Generated video/review outputs
+outputs/
+
+# Build/test outputs
+dist/
+coverage/
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db

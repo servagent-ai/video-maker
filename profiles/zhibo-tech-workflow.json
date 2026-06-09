@@ -1,0 +1,95 @@
+{
+  "id": "zhibo-tech-workflow",
+  "description": "High-density Chinese AI workflow short video for zhibo domestic platforms.",
+  "format": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "minDurationSec": 45,
+    "maxDurationSec": 120,
+    "allowedAspects": ["portrait", "landscape-by-mode"]
+  },
+  "captionPolicy": {
+    "mode": "burned",
+    "format": "srt",
+    "required": true
+  },
+  "preferredRenderers": ["remotion", "hyperframes", "ffmpeg"],
+  "publisherAdapter": "zhibo-sau",
+  "modePolicies": {
+    "remotion:MIMIC-product-daily": {
+      "aspect": "portrait",
+      "width": 1080,
+      "height": 1920,
+      "captionMode": "burned",
+      "visualStyle": "product-news-cards"
+    },
+    "remotion:MIMIC-news-broadcast": {
+      "aspect": "portrait",
+      "width": 1080,
+      "height": 1920,
+      "captionMode": "burned",
+      "visualStyle": "news-broadcast"
+    },
+    "ppt:*": {
+      "aspect": "preserve-source",
+      "captionMode": "burned",
+      "visualStyle": "theme-slide-deck",
+      "notes": ["Do not force landscape decks into portrait canvas unless caller requests conversion."]
+    },
+    "walkthrough:*": {
+      "aspect": "preserve-source-or-requested",
+      "captionMode": "burned",
+      "visualStyle": "browser-or-app-recording",
+      "notes": ["Trim leading blank paint time.", "Reject login/auth/verification captures."]
+    },
+    "terminal:*": {
+      "aspect": "preserve-source-or-requested",
+      "captionMode": "burned",
+      "visualStyle": "terminal-workflow",
+      "notes": ["Terminal text must remain readable after platform compression."]
+    },
+    "recording:*": {
+      "aspect": "preserve-source-or-requested",
+      "captionMode": "burned",
+      "visualStyle": "uploaded-recording",
+      "notes": ["Transcript must align to final processed artifact."]
+    }
+  },
+  "density": {
+    "minBeatCount": 8,
+    "maxBeatDurationSec": 8,
+    "minVisualKindCount": 4,
+    "requiredVisualKindsAnyOf": ["browser", "terminal", "screenshot", "data-card", "comparison-card", "diagram", "caption"],
+    "maxConsecutiveStaticScenes": 2
+  },
+  "platformRules": {
+    "autoPublishTargets": ["bilibili", "douyin", "weixin", "kuaishou"],
+    "kuaishou": {
+      "maxHotTags": 4,
+      "mayRequireHeadedMode": true
+    },
+    "weixin": {
+      "thumbnailRequired": true,
+      "mayRequireHeadedMode": true
+    },
+    "publisherTimeoutSec": 1800,
+    "dedupeActiveJobs": true
+  },
+  "qualityGates": [
+    "spec-complete",
+    "render-integrity",
+    "caption-integrity",
+    "plain-language-zh",
+    "visual-density",
+    "platform-variants",
+    "timeline-audio-fit",
+    "whole-timeline-nonblank",
+    "mode-aspect-preserved"
+  ],
+  "notes": [
+    "Use real UI/screenshots/data cards/browser/terminal visuals.",
+    "Avoid slow single-page pan videos.",
+    "Burn subtitles into the upload artifact so preview matches platform upload."
+  ]
+}

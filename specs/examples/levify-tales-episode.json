@@ -1,0 +1,85 @@
+{
+  "id": "example-levify-tales-episode",
+  "profile": "levify-tales",
+  "sourceProject": "side-hustle/novel-pipeline",
+  "title": "He woke inside a silver cocoon",
+  "description": "A vertical English story episode with a crisis hook and cliffhanger.",
+  "language": "en-US",
+  "format": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "durationSec": 78
+  },
+  "captionPolicy": {
+    "mode": "sidecar",
+    "format": "srt",
+    "required": true
+  },
+  "assets": [
+    {
+      "id": "storyboard",
+      "kind": "json",
+      "uri": ".data/novel-videos/<id>/storyboard.json",
+      "role": "storyboard"
+    },
+    {
+      "id": "captions",
+      "kind": "other",
+      "uri": ".data/novel-videos/<id>/captions.srt",
+      "role": "sidecar-captions"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "crisis",
+      "startSec": 0,
+      "durationSec": 8,
+      "narration": "The boy opened his eyes inside a silver cocoon, while the building above him burned.",
+      "visual": {
+        "kind": "ai-keyframe",
+        "prompt": "cinematic vertical frame, young survivor inside a silver cocoon under collapsed ruins, dramatic firelight",
+        "assetRefs": ["storyboard"]
+      },
+      "story": {
+        "role": "three-second-crisis",
+        "identityHook": "last survivor"
+      }
+    },
+    {
+      "id": "escalation",
+      "startSec": 8,
+      "durationSec": 56,
+      "narration": "Every voice outside called him dead, but something in the cocoon was answering his thoughts.",
+      "visual": {
+        "kind": "ai-keyframe-sequence",
+        "prompt": "same character, glowing cocoon, rescue lights, hidden power awakening",
+        "assetRefs": ["storyboard"]
+      },
+      "story": {
+        "visualAnchor": "silver cocoon"
+      }
+    },
+    {
+      "id": "cliffhanger",
+      "startSec": 64,
+      "durationSec": 14,
+      "narration": "Then he saw the rescue photo, and the body beside the cocoon was wearing his face.",
+      "visual": {
+        "kind": "ai-keyframe",
+        "prompt": "cinematic close-up of a rescue photo showing an impossible duplicate face, suspenseful lighting",
+        "assetRefs": ["storyboard"]
+      },
+      "story": {
+        "role": "cliffhanger",
+        "question": "Why is the corpse wearing his face?"
+      }
+    }
+  ],
+  "publishTargets": ["youtube"],
+  "quality": {
+    "gates": ["spec-complete", "render-integrity", "caption-integrity", "three-second-crisis", "identity-hook", "visual-anchor", "cliffhanger", "transformative-safety", "ai-artifact-review"],
+    "transformativeNote": "Example only: proper nouns removed, details rewritten, narration original, generic survival/duplicate motif retained.",
+    "requiresManualReview": true
+  }
+}

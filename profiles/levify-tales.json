@@ -1,0 +1,67 @@
+{
+  "id": "levify-tales",
+  "description": "English vertical story-series video for YouTube Shorts.",
+  "format": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "minDurationSec": 45,
+    "maxDurationSec": 90,
+    "allowedAspects": ["portrait"]
+  },
+  "captionPolicy": {
+    "mode": "sidecar",
+    "format": "srt",
+    "required": true
+  },
+  "preferredRenderers": ["ffmpeg", "remotion", "hyperframes"],
+  "publisherAdapter": "side-hustle-postiz",
+  "voice": {
+    "language": "en-US",
+    "defaultGender": "male",
+    "audience": "overseas-youtube-shorts"
+  },
+  "storyGates": {
+    "threeSecondCrisis": true,
+    "identityHook": true,
+    "visualAnchorCountMin": 1,
+    "visualAnchorCountMax": 2,
+    "cliffhanger": true,
+    "transformativeSafety": true
+  },
+  "transformative": {
+    "required": true,
+    "removeOriginalProperNouns": true,
+    "rewriteNarration": true,
+    "preserveOnlyGenericMotifs": true
+  },
+  "platformRules": {
+    "autoPublishTargets": ["youtube"],
+    "manualOnlyTargets": ["bilibili", "douyin", "weixin", "kuaishou"],
+    "captionUploadFailSoft": true,
+    "flaggedArtifactsStayDraft": true
+  },
+  "artifactPolicy": {
+    "namespaceByLanguage": true,
+    "namespaceByRenderPass": true,
+    "aiArtifactJudgeFailOpen": true
+  },
+  "qualityGates": [
+    "spec-complete",
+    "render-integrity",
+    "caption-integrity",
+    "three-second-crisis",
+    "identity-hook",
+    "visual-anchor",
+    "cliffhanger",
+    "transformative-safety",
+    "ai-artifact-review",
+    "youtube-only-auto-publish",
+    "artifact-namespace"
+  ],
+  "notes": [
+    "English narration for overseas audience.",
+    "Do not burn captions into the only output; YouTube gets sidecar SRT.",
+    "Record transformative.note before publish."
+  ]
+}

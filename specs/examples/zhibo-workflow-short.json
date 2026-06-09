@@ -1,0 +1,73 @@
+{
+  "id": "example-zhibo-workflow-short",
+  "profile": "zhibo-tech-workflow",
+  "sourceProject": "zhibo",
+  "title": "让 AI 在你不在电脑前的时候自己跑",
+  "description": "A dense AI workflow short for domestic platforms.",
+  "language": "zh-CN",
+  "format": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "durationSec": 72
+  },
+  "captionPolicy": {
+    "mode": "burned",
+    "format": "srt",
+    "required": true
+  },
+  "assets": [
+    {
+      "id": "slides",
+      "kind": "html",
+      "uri": "videos/<topic>/slides.html",
+      "role": "source-composition"
+    },
+    {
+      "id": "voice-ref",
+      "kind": "audio",
+      "uri": "videos/<topic>/build/my_voice.wav",
+      "role": "voice-reference"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "startSec": 0,
+      "durationSec": 6,
+      "narration": "你不在电脑前的时候，AI 任务也应该能继续跑完。",
+      "visual": {
+        "kind": "remotion-components",
+        "components": ["L1_progress_bar_top", "L2_browser_chrome_frame", "L3_highlight_keyword_yellow"],
+        "assetRefs": ["slides"]
+      }
+    },
+    {
+      "id": "workflow",
+      "startSec": 6,
+      "durationSec": 54,
+      "narration": "这条流程解决的问题是：定时派活、跑完通知、失败能回看。",
+      "visual": {
+        "kind": "remotion-components",
+        "components": ["L2_diagram_arrow_flow", "L2_screenshot_carousel", "L4_mascot_corner"],
+        "assetRefs": ["slides"]
+      }
+    },
+    {
+      "id": "close",
+      "startSec": 60,
+      "durationSec": 12,
+      "narration": "你今天可以照做的事，是先把一个每天重复的任务交给 AI。",
+      "visual": {
+        "kind": "remotion-components",
+        "components": ["L2_slides_static", "L3_subtitle_burned"],
+        "assetRefs": ["slides"]
+      }
+    }
+  ],
+  "publishTargets": ["bilibili", "douyin", "weixin", "kuaishou"],
+  "quality": {
+    "gates": ["spec-complete", "render-integrity", "caption-integrity", "plain-language-zh", "visual-density", "platform-variants"],
+    "requiresManualReview": true
+  }
+}

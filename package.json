@@ -1,0 +1,26 @@
+{
+  "name": "video-maker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "validate": "node scripts/validate-spec.mjs",
+    "import:zhibo": "node scripts/import-zhibo-project.mjs",
+    "import:novel": "node scripts/import-novel-video.mjs",
+    "qa:video": "node scripts/qa-video.mjs",
+    "review:existing": "node scripts/review-existing-projects.mjs",
+    "upgrade:outputs": "node scripts/upgrade-comparison-outputs.mjs",
+    "render:review-videos": "node scripts/render-review-videos.mjs",
+    "render:levify": "node scripts/render-levify-tales.mjs",
+    "render:remotion": "node scripts/render-remotion.mjs",
+    "render:hyperframes": "node scripts/render-hyperframes.mjs",
+    "render:comparison": "node scripts/render-comparison.mjs",
+    "handoff:publish": "node scripts/publish-handoff.mjs",
+    "handoff:side-hustle": "node scripts/handoff-side-hustle.mjs",
+    "review:side-hustle": "node scripts/review-side-hustle-episode.mjs",
+    "review:page": "node scripts/generate-review-page.mjs outputs/comparison/current",
+    "review:zhibo-diverse": "node scripts/review-zhibo-diverse.mjs outputs/zhibo-diverse/current",
+    "summarize:quality": "node scripts/summarize-quality-comparison.mjs",
+    "test": "node --test test/*.test.mjs"
+  }
+}
