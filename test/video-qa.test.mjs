@@ -82,6 +82,15 @@ test('profile check flags resolution mismatch as review issue', () => {
   assert.equal(issues.find((i) => i.code === 'resolution_mismatch')?.severity, 'soft');
 });
 
+test('profile check honors spec resolution before profile default', () => {
+  const landscapeSpec = { ...spec, format: { width: 1920, height: 1080, fps: 30, durationSec: 60 } };
+  const landscapeSummary = summary({ video: { ...summary().video, width: 1920, height: 1080 } });
+  const issues = checkVideoAgainstProfile(landscapeSpec, profile, landscapeSummary, [
+    { ptsTime: 0, YAVG: 80, YMIN: 0, YMAX: 220, SATAVG: 20 },
+  ]);
+  assert.equal(issues.find((i) => i.code === 'resolution_mismatch'), undefined);
+});
+
 test('profile check flags too short and too long durations as fatal', () => {
   const shortIssues = checkVideoAgainstProfile(spec, profile, summary({ durationSec: 32 }), []);
   assert.equal(shortIssues.find((i) => i.code === 'duration_too_short')?.severity, 'fatal');

@@ -74,6 +74,24 @@ Profile JSONs are public contracts. A profile may include:
 - `platformRules`: allowed automatic publish targets and platform quirks.
 - `voice`: default narration constraints.
 
+Optional render/style fields:
+
+- `style.id`: style key from `catalogs/video-styles.json`.
+- `style.elements`: required or preferred visual elements for the render.
+- `render.engine`: requested render engine.
+- `render.adapter`: adapter mode such as `native`, `external-command`, or `source-video`.
+- `render.externalCommand`: caller-supplied command for private/native source-project renderers.
+- `render.sourceVideo`: already rendered source video to normalize/QA/handoff.
+- `render.assetPolicy`: `required` or `fallback-ok`.
+
+Scene-level optional fields:
+
+- `scene.audio.uri`: per-scene narration/audio file.
+- `scene.audio.durationSec`: measured audio duration used for retiming.
+- `scene.visual.image`: direct image path.
+- `scene.visual.assetRefs`: references top-level assets by id.
+- `scene.metadata`: source-project-specific non-secret metadata.
+
 Validation command:
 
 ```bash
@@ -319,6 +337,8 @@ Agent rule:
 
 - Render commands must write a QA report before a result is considered production-ready.
 - Native engine upgrades must preserve the same CLI arguments and output file names.
+- `render:levify` must prefer scene image/audio assets when present and mark `renderMode=asset-mode`; fallback placeholder visuals must be marked `renderMode=fallback-mode`.
+- `render:zhibo` must accept source-video normalization and external command bridge modes without importing private source-project code.
 
 ## API 6: Publish Handoff
 

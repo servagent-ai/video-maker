@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { join, resolve } from 'node:path';
+import { dirname, isAbsolute, join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import {
   checkSrt,
@@ -30,6 +30,7 @@ if (!specPath || !outDir) {
 }
 
 const spec = readJson(specPath);
+const specBaseDir = dirname(resolve(specPath));
 const profile = readJson('profiles/levify-tales.json');
 if (spec.profile !== 'levify-tales') throw new Error(`render-levify-tales requires profile=levify-tales, got ${spec.profile}`);
 
@@ -39,17 +40,22 @@ const renderSpecPath = join(out, 'video-maker.spec.json');
 const captionsPath = join(out, 'captions.srt');
 const videoPath = join(out, 'video.mp4');
 const manifestPath = join(out, 'render-manifest.json');
-writeFileSync(renderSpecPath, JSON.stringify(spec, null, 2));
 
-const captions = buildCaptions(spec);
+const assetPlan = planAssets(spec);
+const retimedSpec = retimeSpecFromAudio(spec, assetPlan);
+writeFileSync(renderSpecPath, JSON.stringify(retimedSpec, null, 2));
+
+const captions = buildCaptions(retimedSpec);
 writeFileSync(captionsPath, captions);
 
-renderVideo(spec, profile, videoPath);
+const renderMode = assetPlan.some((p) => p.image || p.audio) ? 'asset-mode' : 'fallback-mode';
+if (renderMode === 'asset-mode') renderAssetVideo(retimedSpec, profile, assetPlan, videoPath, out);
+else renderFallbackVideo(retimedSpec, profile, videoPath);
 
 const qaSpec = {
   ...spec,
   assets: [
-    ...(spec.assets ?? []).filter((a) => !/caption|srt/i.test(`${a.role ?? ''} ${a.uri ?? ''}`)),
+    ...(retimedSpec.assets ?? []).filter((a) => !/caption|srt/i.test(`${a.role ?? ''} ${a.uri ?? ''}`)),
     { id: 'captions', kind: 'other', uri: captionsPath, role: 'sidecar-captions' },
   ],
 };
@@ -79,6 +85,7 @@ const manifest = {
   version: 1,
   status: 'rendered',
   engine: 'ffmpeg-levify-tales',
+  renderMode,
   profile: 'levify-tales',
   video: videoPath,
   captions: captionsPath,
@@ -89,7 +96,7 @@ writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
 console.log(`${report.status}: ${videoPath}`);
 if (report.status === 'fail') process.exit(1);
 
-function renderVideo(spec, profile, output) {
+function renderFallbackVideo(spec, profile, output) {
   const width = profile.format.width;
   const height = profile.format.height;
   const fps = profile.format.fps;
@@ -117,6 +124,141 @@ function renderVideo(spec, profile, output) {
   ];
   const r = spawnSync(ffmpeg, args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
   if (r.status !== 0) throw new Error(`ffmpeg render failed: ${r.stderr || r.stdout}`);
+}
+
+function renderAssetVideo(spec, profile, plan, output, outDir) {
+  const segmentDir = join(outDir, 'segments');
+  mkdirSync(segmentDir, { recursive: true });
+  const segmentPaths = [];
+  for (const [i, scene] of (spec.scenes ?? []).entries()) {
+    const segment = join(segmentDir, `${String(i + 1).padStart(3, '0')}.mp4`);
+    renderSegment(scene, profile, plan[i], segment);
+    segmentPaths.push(segment);
+  }
+  const concatPath = join(segmentDir, 'concat.txt');
+  writeFileSync(concatPath, segmentPaths.map((p) => `file '${p.replace(/'/g, "'\\''")}'`).join('\n') + '\n');
+  const r = spawnSync(ffmpeg, [
+    '-hide_banner', '-y',
+    '-f', 'concat',
+    '-safe', '0',
+    '-i', concatPath,
+    '-c', 'copy',
+    '-movflags', '+faststart',
+    output,
+  ], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+  if (r.status !== 0) throw new Error(`ffmpeg concat failed: ${r.stderr || r.stdout}`);
+}
+
+function renderSegment(scene, profile, item, output) {
+  const width = profile.format.width;
+  const height = profile.format.height;
+  const fps = profile.format.fps;
+  const duration = Number(scene.durationSec ?? 4);
+  const videoInput = item?.image
+    ? ['-loop', '1', '-i', item.image]
+    : ['-f', 'lavfi', '-i', `color=c=0x151820:s=${width}x${height}:r=${fps}:d=${duration.toFixed(3)}`];
+  const audioInput = item?.audio
+    ? ['-i', item.audio]
+    : ['-f', 'lavfi', '-i', 'anullsrc=channel_layout=stereo:sample_rate=44100'];
+  const vf = [
+    `scale=${width}:${height}:force_original_aspect_ratio=increase`,
+    `crop=${width}:${height}`,
+    `fps=${fps}`,
+    'format=yuv420p',
+  ];
+  if (canDrawText) {
+    vf.push(`drawtext=text='${escDraw(scene.id ?? '')}':x=72:y=88:fontsize=42:fontcolor=white:box=1:boxcolor=0x111111@0.42:boxborderw=14`);
+  }
+  const r = spawnSync(ffmpeg, [
+    '-hide_banner', '-y',
+    ...videoInput,
+    ...audioInput,
+    '-vf', vf.join(','),
+    '-af', `apad,atrim=0:${duration.toFixed(3)}`,
+    '-t', duration.toFixed(3),
+    '-c:v', 'libx264',
+    '-preset', 'slow',
+    '-crf', '16',
+    '-pix_fmt', 'yuv420p',
+    '-c:a', 'aac',
+    '-b:a', '192k',
+    '-shortest',
+    output,
+  ], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+  if (r.status !== 0) throw new Error(`ffmpeg segment failed: ${r.stderr || r.stdout}`);
+}
+
+function planAssets(spec) {
+  const assets = new Map((spec.assets ?? []).map((a) => [a.id, { ...a, uri: resolveAsset(a.uri) }]));
+  return (spec.scenes ?? []).map((scene, i) => {
+    const id = scene.id ?? `scene-${i + 1}`;
+    const refs = scene.visual?.assetRefs ?? [];
+    const refAssets = refs.map((ref) => assets.get(ref)).filter(Boolean);
+    const image = firstExisting([
+      scene.visual?.image,
+      ...refAssets.filter((a) => a.kind === 'image').map((a) => a.uri),
+      ...findAssetsForScene(spec.assets ?? [], id, i, 'image').map((a) => a.uri),
+    ]);
+    const audio = firstExisting([
+      scene.audio?.uri,
+      ...refAssets.filter((a) => a.kind === 'audio').map((a) => a.uri),
+      ...findAssetsForScene(spec.assets ?? [], id, i, 'audio').map((a) => a.uri),
+    ]);
+    return { image, audio };
+  });
+}
+
+function findAssetsForScene(assets, sceneId, index, kind) {
+  const n = String(index + 1).padStart(2, '0');
+  const aliases = [sceneId, `shot-${n}`, `scene-${n}`].map((s) => String(s).toLowerCase());
+  return assets
+    .filter((a) => a.kind === kind)
+    .filter((a) => aliases.some((alias) => `${a.id} ${a.role ?? ''} ${a.uri}`.toLowerCase().includes(alias)))
+    .map((a) => ({ ...a, uri: resolveAsset(a.uri) }));
+}
+
+function firstExisting(paths) {
+  return paths.map((p) => p && resolveAsset(p)).find((p) => p && existsSync(p)) ?? null;
+}
+
+function resolveAsset(uri) {
+  if (!uri) return null;
+  return isAbsolute(uri) ? uri : resolve(specBaseDir, uri);
+}
+
+function retimeSpecFromAudio(spec, plan) {
+  let changed = false;
+  let cursor = 0;
+  const scenes = (spec.scenes ?? []).map((scene, i) => {
+    const audioDur = plan[i]?.audio ? probeDuration(plan[i].audio) : 0;
+    const durationSec = Math.max(Number(scene.durationSec ?? 4), audioDur ? audioDur + 0.15 : 0);
+    const out = {
+      ...scene,
+      startSec: Number(cursor.toFixed(3)),
+      durationSec: Number(durationSec.toFixed(3)),
+    };
+    if (audioDur) out.audio = { ...(scene.audio ?? {}), uri: plan[i].audio, durationSec: Number(audioDur.toFixed(3)), paddingSec: 0.15 };
+    if (out.startSec !== scene.startSec || out.durationSec !== scene.durationSec) changed = true;
+    cursor += durationSec;
+    return out;
+  });
+  const durationSec = Number(cursor.toFixed(3));
+  return {
+    ...spec,
+    scenes,
+    format: { ...spec.format, durationSec: changed ? durationSec : spec.format?.durationSec ?? durationSec },
+  };
+}
+
+function probeDuration(file) {
+  const r = spawnSync(process.env.FFPROBE_BIN ?? '/opt/homebrew/bin/ffprobe', [
+    '-v', 'error',
+    '-show_entries', 'format=duration',
+    '-of', 'default=nw=1:nk=1',
+    file,
+  ], { encoding: 'utf8' });
+  const n = Number(r.stdout.trim());
+  return r.status === 0 && Number.isFinite(n) ? n : 0;
 }
 
 function sceneFilters(spec, width, height) {

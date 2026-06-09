@@ -150,9 +150,9 @@ function signalStatsAtFrames(videoPath, frames, ffmpeg) {
 
 export function checkVideoAgainstProfile(spec, profile, summary, frameStats) {
   const issues = [];
-  const requiredW = profile.format?.width ?? spec.format?.width;
-  const requiredH = profile.format?.height ?? spec.format?.height;
-  const fps = profile.format?.fps ?? spec.format?.fps;
+  const requiredW = spec.format?.width ?? profile.format?.width;
+  const requiredH = spec.format?.height ?? profile.format?.height;
+  const fps = spec.format?.fps ?? profile.format?.fps;
   const minDur = profile.format?.minDurationSec;
   const maxDur = profile.format?.maxDurationSec;
   const tolerance = 0.75;

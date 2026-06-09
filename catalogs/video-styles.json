@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "styles": {
+    "workflow-dense": {
+      "description": "High-density workflow/news short with UI cards, browser frames, terminal snippets, diagrams, and burned captions.",
+      "defaultProfile": "zhibo-tech-workflow",
+      "aspectPolicy": "mode-specific",
+      "elements": ["browser-frame", "terminal-panel", "data-card", "comparison-card", "diagram-flow", "burned-caption-band", "progress-strip"]
+    },
+    "news-broadcast": {
+      "description": "Portrait news-broadcast layout with headline stack, anchor card, evidence panels, and source cards.",
+      "defaultProfile": "zhibo-tech-workflow",
+      "aspectPolicy": "portrait",
+      "elements": ["headline-stack", "anchor-card", "evidence-panel", "ticker-strip", "burned-caption-band"]
+    },
+    "product-daily": {
+      "description": "Fast product/update explainer with hook, feature cards, UI proof, comparison beat, and CTA close.",
+      "defaultProfile": "zhibo-tech-workflow",
+      "aspectPolicy": "portrait",
+      "elements": ["hook-card", "feature-card", "browser-frame", "comparison-card", "cta-card"]
+    },
+    "slide-deck-dark": {
+      "description": "Landscape dark technical slide deck for PPT/screen-led explainers.",
+      "defaultProfile": "zhibo-tech-workflow",
+      "aspectPolicy": "preserve-source",
+      "elements": ["title-slide", "code-panel", "diagram-flow", "mascot-corner", "burned-caption-band"]
+    },
+    "mythic-short": {
+      "description": "Vertical cinematic story short with crisis hook, visual anchor, escalation, and cliffhanger.",
+      "defaultProfile": "levify-tales",
+      "aspectPolicy": "portrait",
+      "elements": ["crisis-hook", "character-anchor", "ken-burns-keyframe", "caption-sidecar", "cliffhanger-card"]
+    },
+    "cinematic-retelling": {
+      "description": "Narrative retelling with locked characters, keyframe sequence, slower camera motion, and YouTube sidecar captions.",
+      "defaultProfile": "levify-tales",
+      "aspectPolicy": "portrait",
+      "elements": ["character-anchor", "ken-burns-keyframe", "scene-escalation", "caption-sidecar", "cliffhanger-card"]
+    }
+  },
+  "elements": {
+    "browser-frame": { "kind": "visual", "requires": ["image-or-html"], "notes": "Use contain fit unless a focus crop is declared." },
+    "terminal-panel": { "kind": "visual", "requires": ["text-or-image"], "notes": "Text must remain readable after platform compression." },
+    "data-card": { "kind": "visual", "requires": ["structured-data"] },
+    "comparison-card": { "kind": "visual", "requires": ["two-or-more-claims"] },
+    "diagram-flow": { "kind": "visual", "requires": ["steps"] },
+    "burned-caption-band": { "kind": "caption", "requires": ["srt-or-timed-text"] },
+    "caption-sidecar": { "kind": "caption", "requires": ["srt"], "notes": "Required for YouTube story videos." },
+    "ken-burns-keyframe": { "kind": "motion", "requires": ["image"], "notes": "Scale/pad to profile aspect, animate with subtle crop/zoom." },
+    "crisis-hook": { "kind": "story", "requires": ["first-three-second-crisis"] },
+    "character-anchor": { "kind": "story", "requires": ["identity-hook"] },
+    "cliffhanger-card": { "kind": "story", "requires": ["unresolved-ending"] },
+    "progress-strip": { "kind": "motion", "requires": ["duration"] },
+    "headline-stack": { "kind": "visual", "requires": ["headline"] },
+    "anchor-card": { "kind": "visual", "requires": ["speaker-or-topic"] },
+    "evidence-panel": { "kind": "visual", "requires": ["source-or-proof"] },
+    "ticker-strip": { "kind": "motion", "requires": ["short-facts"] },
+    "hook-card": { "kind": "story", "requires": ["hook"] },
+    "feature-card": { "kind": "visual", "requires": ["feature"] },
+    "cta-card": { "kind": "story", "requires": ["actionable-close"] },
+    "title-slide": { "kind": "visual", "requires": ["title"] },
+    "code-panel": { "kind": "visual", "requires": ["code-or-terminal"] },
+    "mascot-corner": { "kind": "overlay", "requires": ["image"] },
+    "scene-escalation": { "kind": "story", "requires": ["rising-stakes"] }
+  }
+}

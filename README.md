@@ -90,6 +90,7 @@ npm run qa:video -- --spec <spec.json> --profile <profile.json> --video <video.m
 npm run import:novel -- --project <novel-video-dir> --out <spec.json>
 npm run import:zhibo -- --project <zhibo-video-dir> --out <spec.json>
 npm run render:levify -- --spec <spec.json> --out <out-dir>
+npm run render:zhibo -- --spec <spec.json> --out <out-dir>
 npm run render:remotion -- --spec <spec.json> --profile <profile.json> --out <out-dir>
 npm run render:hyperframes -- --spec <spec.json> --profile <profile.json> --out <out-dir>
 npm run render:comparison -- --spec <spec.json> --profile <profile.json> --engines remotion,hyperframes --out <out-dir>
@@ -157,6 +158,19 @@ Profiles make quality rules explicit:
 - [profiles/zhibo-tech-workflow.json](profiles/zhibo-tech-workflow.json): high-density workflow/news videos, burned captions, domestic platform handoff, mode-specific aspect policies.
 
 Important behavior: Video Maker does not force every source into one aspect ratio. Portrait short videos stay portrait; landscape PPT/screen/terminal modes can remain landscape when the profile or mode requires it.
+
+## Styles And Elements
+
+Reusable visual styles live in [catalogs/video-styles.json](catalogs/video-styles.json). Callers can reference a style in `VideoSpec.style.id`, then override scene-level visuals as needed.
+
+Current built-in styles include:
+
+- `workflow-dense`
+- `news-broadcast`
+- `product-daily`
+- `slide-deck-dark`
+- `mythic-short`
+- `cinematic-retelling`
 
 ## QA
 
@@ -227,6 +241,11 @@ Downstream projects should integrate through files:
 5. Let the downstream publisher consume that manifest.
 
 Do not publish directly from render commands.
+
+Project-specific tutorials:
+
+- [zhibo integration guide](docs/integrations/zhibo.md)
+- [side-hustle / Levify Tales integration guide](docs/integrations/side-hustle.md)
 
 ## License
 

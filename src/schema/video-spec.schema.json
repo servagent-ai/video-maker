@@ -13,6 +13,30 @@
     "title": { "type": "string" },
     "description": { "type": "string" },
     "language": { "type": "string", "minLength": 2 },
+    "style": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "elements": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "render": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "engine": { "type": "string", "minLength": 1 },
+        "adapter": { "type": "string", "minLength": 1 },
+        "externalCommand": { "type": "string" },
+        "sourceVideo": { "type": "string" },
+        "assetPolicy": {
+          "enum": ["required", "fallback-ok"]
+        }
+      }
+    },
     "format": {
       "type": "object",
       "additionalProperties": false,
@@ -53,6 +77,7 @@
             "properties": {
               "kind": { "type": "string", "minLength": 1 },
               "prompt": { "type": "string" },
+              "image": { "type": "string" },
               "assetRefs": {
                 "type": "array",
                 "items": { "type": "string" }
@@ -64,6 +89,19 @@
             }
           },
           "story": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "audio": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "uri": { "type": "string" },
+              "durationSec": { "type": "number", "exclusiveMinimum": 0 },
+              "paddingSec": { "type": "number", "minimum": 0 }
+            }
+          },
+          "metadata": {
             "type": "object",
             "additionalProperties": true
           }

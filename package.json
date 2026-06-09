@@ -17,6 +17,7 @@
     "upgrade:outputs": "node scripts/upgrade-comparison-outputs.mjs",
     "render:review-videos": "node scripts/render-review-videos.mjs",
     "render:levify": "node scripts/render-levify-tales.mjs",
+    "render:zhibo": "node scripts/render-zhibo.mjs",
     "render:remotion": "node scripts/render-remotion.mjs",
     "render:hyperframes": "node scripts/render-hyperframes.mjs",
     "render:comparison": "node scripts/render-comparison.mjs",
