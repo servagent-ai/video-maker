@@ -2,7 +2,7 @@
 
 ## Repository State
 
-- Workspace root: `/Users/zhen.liu/projects/video-maker`.
+- Workspace root: repository root.
 - Current state: shared video production contract and orchestration project.
 - No Git repository detected in this workspace.
 - The project currently contains docs, profiles, example specs, a JSON schema, and a dependency-free spec validator.

@@ -3,7 +3,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, wri
 import { basename, dirname, join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
-const ZHIBO_ROOT = process.env.ZHIBO_VIDEOS_DIR ?? '/Users/zhen.liu/projects/zhibo/videos';
+const ZHIBO_ROOT = process.env.ZHIBO_VIDEOS_DIR ?? 'examples/local/zhibo/videos';
 const OUT = resolve(process.argv[2] ?? 'outputs/zhibo-diverse/current');
 const ffmpeg = process.env.FFMPEG_BIN ?? '/opt/homebrew/bin/ffmpeg';
 const ffprobe = process.env.FFPROBE_BIN ?? '/opt/homebrew/bin/ffprobe';

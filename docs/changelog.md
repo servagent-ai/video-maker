@@ -8,3 +8,4 @@
 - Added QA gates for video/audio integrity, captions, blank frames, mode/aspect preservation, timeline audio fit, visual density, story hooks, transformative safety, and publish target gating.
 - Added unit tests, contract tests, and CI workflow for validation, UT, and CT.
 - Published repository as open source under the MIT license.
+- Added `SECURITY.md`, local `security:scan`, CI security scanning, stricter secret ignores, and scrubbed machine-specific source paths from the public tree.

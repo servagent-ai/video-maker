@@ -61,7 +61,7 @@ Sources:
 - https://hyperframes.video/
 - https://hyperframes.video/docs
 - https://hyperframes.heygen.com/packages/engine
-- Local: `/Users/zhen.liu/projects/zhibo/videos/hyperframes-engine`
+- Local evaluation path: source-project checkout path, supplied by the caller.
 
 ### 3. FFmpeg
 

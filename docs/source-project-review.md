@@ -6,12 +6,12 @@ Date: 2026-06-09
 
 Video-related source reviewed:
 
-- `/Users/zhen.liu/projects/zhibo/CLAUDE.md`
-- `/Users/zhen.liu/projects/zhibo/videos/remotion-lab/README.md`
-- `/Users/zhen.liu/projects/zhibo/.claude/skills/video-new-project.md`
-- `/Users/zhen.liu/projects/zhibo/.claude/skills/enrich-video-assets.md`
-- `/Users/zhen.liu/projects/zhibo/.claude/skills/upload-video.md`
-- `/Users/zhen.liu/projects/zhibo/videos/_assets/*`
+- `<zhibo-root>/CLAUDE.md`
+- `<zhibo-root>/videos/remotion-lab/README.md`
+- `<zhibo-root>/.claude/skills/video-new-project.md`
+- `<zhibo-root>/.claude/skills/enrich-video-assets.md`
+- `<zhibo-root>/.claude/skills/upload-video.md`
+- `<zhibo-root>/videos/_assets/*`
 
 ### Current Video Goal
 
@@ -64,15 +64,15 @@ The stable contract is already narrow:
 
 Source reviewed:
 
-- `/Users/zhen.liu/projects/company/side-hustle/AGENTS.md`
-- `/Users/zhen.liu/projects/company/side-hustle/docs/youtube-content-spec.md`
-- `/Users/zhen.liu/projects/company/side-hustle/docs/youtube-growth-strategy.md`
-- `/Users/zhen.liu/projects/company/side-hustle/docs/youtube-e2e-audit.md`
-- `/Users/zhen.liu/projects/company/side-hustle/packages/content/src/publish/video-source.ts`
-- `/Users/zhen.liu/projects/company/side-hustle/packages/content/src/pipeline/queue.ts`
-- `/Users/zhen.liu/projects/company/novel-pipeline/CLAUDE.md`
-- `/Users/zhen.liu/projects/company/novel-pipeline/src/make-series.ts`
-- `/Users/zhen.liu/projects/company/novel-pipeline/src/produce/*`
+- `<side-hustle-root>/AGENTS.md`
+- `<side-hustle-root>/docs/youtube-content-spec.md`
+- `<side-hustle-root>/docs/youtube-growth-strategy.md`
+- `<side-hustle-root>/docs/youtube-e2e-audit.md`
+- `<side-hustle-root>/packages/content/src/publish/video-source.ts`
+- `<side-hustle-root>/packages/content/src/pipeline/queue.ts`
+- `<novel-pipeline-root>/CLAUDE.md`
+- `<novel-pipeline-root>/src/make-series.ts`
+- `<novel-pipeline-root>/src/produce/*`
 
 ### Current Video Goal
 

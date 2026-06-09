@@ -26,6 +26,7 @@
     "review:page": "node scripts/generate-review-page.mjs outputs/comparison/current",
     "review:zhibo-diverse": "node scripts/review-zhibo-diverse.mjs outputs/zhibo-diverse/current",
     "summarize:quality": "node scripts/summarize-quality-comparison.mjs",
+    "security:scan": "node scripts/security-scan.mjs",
     "test": "npm run test:ut && npm run test:ct",
     "test:ut": "node --test test/video-qa.test.mjs",
     "test:ct": "node --test test/*contract*.test.mjs test/publish-handoff.test.mjs"

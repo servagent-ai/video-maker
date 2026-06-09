@@ -20,6 +20,9 @@ jobs:
       - name: Validate specs
         run: npm run validate
 
+      - name: Security scan
+        run: npm run security:scan
+
       - name: Run unit tests
         run: npm run test:ut
 

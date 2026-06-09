@@ -12,8 +12,8 @@ import {
   videoSummary,
 } from './lib/video-qa.mjs';
 
-const ZHIBO_ROOT = process.env.ZHIBO_VIDEOS_DIR ?? '/Users/zhen.liu/projects/zhibo/videos';
-const COMPANY_ROOT = process.env.COMPANY_ROOT ?? '/Users/zhen.liu/projects/company';
+const ZHIBO_ROOT = process.env.ZHIBO_VIDEOS_DIR ?? 'examples/local/zhibo/videos';
+const COMPANY_ROOT = process.env.COMPANY_ROOT ?? 'examples/local/company';
 const OUT_ROOT = process.env.VIDEO_MAKER_OUT ?? 'outputs/comparison';
 
 function arg(name, def = undefined) {

@@ -242,7 +242,7 @@ Tests:
 - Run global skill check:
 
 ```bash
-python /Users/zhen.liu/.codex/skills/multi-agent-context/scripts/sync_context.py . --check
+python <codex-home>/skills/multi-agent-context/scripts/sync_context.py . --check
 ```
 
 ## Migration Boundary
