@@ -27,6 +27,8 @@
 
 - Validate example specs: `npm run validate`.
 - Run tests: `npm test`.
+- Run unit tests only: `npm run test:ut`.
+- Run contract tests only: `npm run test:ct`.
 - Render Levify Tales spec: `npm run render:levify -- --spec <spec.json> --out <dir>`.
 - Render engine comparison: `npm run render:comparison -- --spec <spec.json> --profile <profile.json> --engines remotion,hyperframes --out <dir>`.
 - Generate side-hustle handoff: `npm run handoff:side-hustle -- --render-dir <dir> --out <handoff.json>`.
@@ -38,6 +40,7 @@
 - Version history is recorded in `docs/changelog.md`.
 - Current package version: `0.1.0`.
 - Generated review/video outputs under `outputs/` are local artifacts and must not be committed.
+- Repository is open source under the MIT license.
 
 ## Working Rules
 

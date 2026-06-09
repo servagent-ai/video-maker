@@ -20,5 +20,8 @@ jobs:
       - name: Validate specs
         run: npm run validate
 
-      - name: Run tests
-        run: npm test
+      - name: Run unit tests
+        run: npm run test:ut
+
+      - name: Run contract tests
+        run: npm run test:ct

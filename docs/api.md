@@ -455,4 +455,5 @@ Before finishing any API-affecting change:
 - Update `CLAUDE.md`; `AGENTS.md` and `GEMINI.md` link to it.
 - Update examples under `specs/examples/` if VideoSpec fields changed.
 - Update tests when QA behavior, validation behavior, or report shape changes.
+- Run `npm run test:ut` and `npm run test:ct`.
 - Regenerate affected review packages when output behavior changed.

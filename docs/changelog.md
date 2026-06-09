@@ -6,4 +6,5 @@
 - Added public API contract, project requirements matrix, profiles, VideoSpec schema, example specs, importers, render adapters, review packages, QA helpers, and publish handoff manifests.
 - Added first-pass production CLIs for Levify rendering, Remotion/HyperFrames-compatible rendering, engine comparison, side-hustle handoff, zhibo publish handoff, and review pages.
 - Added QA gates for video/audio integrity, captions, blank frames, mode/aspect preservation, timeline audio fit, visual density, story hooks, transformative safety, and publish target gating.
-- Added CI workflow for validation and tests.
+- Added unit tests, contract tests, and CI workflow for validation, UT, and CT.
+- Published repository as open source under the MIT license.

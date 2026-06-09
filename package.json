@@ -1,7 +1,12 @@
 {
   "name": "video-maker",
   "version": "0.1.0",
-  "private": true,
+  "description": "File-based video production library with render adapters, QA gates, review packages, and publish handoff manifests.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/servagent-ai/video-maker.git"
+  },
   "type": "module",
   "scripts": {
     "validate": "node scripts/validate-spec.mjs",
@@ -21,6 +26,8 @@
     "review:page": "node scripts/generate-review-page.mjs outputs/comparison/current",
     "review:zhibo-diverse": "node scripts/review-zhibo-diverse.mjs outputs/zhibo-diverse/current",
     "summarize:quality": "node scripts/summarize-quality-comparison.mjs",
-    "test": "node --test test/*.test.mjs"
+    "test": "npm run test:ut && npm run test:ct",
+    "test:ut": "node --test test/video-qa.test.mjs",
+    "test:ct": "node --test test/*contract*.test.mjs test/publish-handoff.test.mjs"
   }
 }
