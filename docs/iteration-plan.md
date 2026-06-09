@@ -65,6 +65,10 @@ Implement render adapters in this order:
 2. Remotion adapter for `zhibo` profile and remotion-lab catalog.
 3. HyperFrames adapter for agent-authored HTML compositions.
 
+`company/side-hustle` production requirements are tracked in
+`docs/side-hustle-production-requirements.md`. New render/handoff features for
+that project must include tests in the same change.
+
 Success:
 
 - One example spec can render through Remotion.

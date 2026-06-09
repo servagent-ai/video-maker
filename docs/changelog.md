@@ -10,3 +10,4 @@
 - Published repository as open source under the MIT license.
 - Added `SECURITY.md`, local `security:scan`, CI security scanning, stricter secret ignores, and scrubbed machine-specific source paths from the public tree.
 - Added style/element catalog, `render:zhibo` adapter, Levify asset-mode rendering from scene frames/audio, and project-specific integration guides with responsibility boundaries.
+- Expanded README with open-source project overview, demos, public command reference, zhibo service tutorial, Levify/side-hustle service tutorial, QA, testing, security, and integration boundaries.
